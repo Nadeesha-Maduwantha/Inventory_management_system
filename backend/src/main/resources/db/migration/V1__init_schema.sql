@@ -1,0 +1,3 @@
+-- Baseline migration. Domain tables (users, branches, products, orders,
+-- returns, sales/credit, notifications, activity log) are added in
+-- subsequent versioned migrations as each feature is implemented.

@@ -1,0 +1,18 @@
+# Root-level npm workspace (backend/ and frontend/ have their own .gitignore)
+node_modules/
+
+# Docker
+pgdata/
+
+# Env
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
