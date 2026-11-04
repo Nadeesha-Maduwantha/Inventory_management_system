@@ -1,10 +1,11 @@
-package com.headoffice.stockms.user.dto;
+package com.headoffice.stockms.dto;
 
 import com.headoffice.stockms.user.entity.Role;
-import lombok.Data;
 import lombok.Builder;
+import lombok.Data;
+
+import java.time.Instant;
 import java.util.UUID;
-import java.time.instant;
 
 @Data
 @Builder
