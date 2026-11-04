@@ -1,48 +1,47 @@
-package com.headoffice.stockms.user.service;
+package com.headoffice.stockms.service;
 
-import com.headoffice.stockms.user.dto.CreateUserRequest;
-import com.headoffice.stockms.user.dto.UserResponse;
+import com.headoffice.stockms.dto.CreateUserRequest;
+import com.headoffice.stockms.dto.UserResponse;
 import com.headoffice.stockms.user.entity.User;
-import com.headoffice.stockms.user.repository.UserRepository;
+import com.headoffice.stockms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stecurity.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService{
+public class UserService {
 
-    private final UserRepository user repository;
-    private final PasswordEncoder password encoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UserResponse createUser(createUserRequest request){
-        if (userRepository.exsistsByUsername(request.getUsername())){
+    public UserResponse createUser(CreateUserRequest request) {
+        if (userRepository.existsByUsername(request.getUsername())) {
             throw new IllegalArgumentException("Username is already taken");
-
         }
-        if (userRepository.existsByEmail(request.getEmail())){
-            throw new IllegalArgumentException("Email is alrady Registered" );
-             }
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new IllegalArgumentException("Email is already registered");
+        }
 
-        User user = User.buiilder()
+        User user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .isActive(true)
                 .build();
-                
+
         User savedUser = userRepository.save(user);
 
         return UserResponse.builder()
-             .id(saveUser.getId())
-             .username(saveUser.getUsername())
-             .email(saveUser.getEmail())
-             .role(saveUser.getRole())
-             .isActive(saveUser.isActive())
-             .createdAt(saveUser.getCreatedAt())
-             .build();
+                .id(savedUser.getId())
+                .username(savedUser.getUsername())
+                .email(savedUser.getEmail())
+                .role(savedUser.getRole())
+                .isActive(savedUser.isActive())
+                .createdAt(savedUser.getCreatedAt())
+                .build();
     }
 }
